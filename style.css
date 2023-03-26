@@ -59,6 +59,22 @@ form {
     margin-left: 5px;
 }
 
+.dropdown input::placeholder {
+    color: white;
+}
+
+.dropdown input {
+    text-align: left;
+    width: 150px;
+}
+
+.dropdown-btn-icon {
+    color: white;
+    margin-left: -50px;
+    margin-top: 20px;
+    margin-right: 40px;
+}
+
 #dropdown-buttons {
     display: inline-flex;
 }

@@ -18,17 +18,42 @@ function displayIngredients(recipes) {
     return ingredientsArr
 }
 
-function displayUstensils() {
-
+function displayUstensils(recipes) {
+    let ustensilsArr = []
+    for(let i = 0; i < recipes.length; i++) {
+        let recipe = recipes[i]
+        let ustensils = recipe.ustensils
+        for(let j = 0; j < ustensils.length; j++) {
+            let ustensil = ustensils[j]
+            let ustensilsName = ustensil.toLowerCase()
+            if(ustensilsArr.includes(ustensilsName) === false) {
+                ustensilsArr.push(ustensilsName)
+            }
+        }
+    }
+    console.log(ustensilsArr)
+    return ustensilsArr
 }
 
-function displayAppliance() {
-
+function displayAppliance(recipes) {
+    let applianceArr = []
+    for(let i = 0; i < recipes.length; i++) {
+        let recipe = recipes[i]
+        let appliance = recipe.appliance
+        let applianceName = appliance.toLowerCase()
+        if(applianceArr.includes(applianceName) === false) {
+            applianceArr.push(applianceName)
+        }
+    }
+    console.log(applianceArr)
+    return applianceArr
 }
 
 function displayData(recipes) {
     // reset div qui contient les recettes
     displayIngredients(recipes)
+    displayUstensils(recipes)
+    displayAppliance(recipes)
 }
 
 function init() {
