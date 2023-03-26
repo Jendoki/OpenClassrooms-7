@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <title>Les Petits Plats</title>
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <div class="row">
+          <div class="col-5"></div>
+          <div class="col">
+            <img id="logo" src="assets/banner-logo.png" alt="Logo" />
+          </div>
+          <div class="col-5"></div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <form id="search-form">
+              <input
+                type="text"
+                class="form-control light-gray"
+                id="search"
+                placeholder="Rechercher une recette"
+              />
+              <button type="submit" id="submit">
+                <img
+                  id="search-icon"
+                  src="assets/search.png"
+                  alt="search icon"
+                />
+              </button>
+              <span> </span>
+            </form>
+          </div>
+        </div>
+
+        <div class="tags">
+          <div class="row">
+            <div class="btn blue white-text btn-tag">
+              Coco
+              <svg
+                class="close-icon"
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                class="bi bi-x-circle"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"
+                />
+                <path
+                  d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"
+                />
+              </svg>
+            </div>
+
+            <div class="btn blue white-text btn-tag">
+              Citron
+              <svg
+                class="close-icon"
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                class="bi bi-x-circle"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"
+                />
+                <path
+                  d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"
+                />
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- -------------------------------------------------------------------------- -->
+        <!-- TO FIX : mettre les boutons en ligne SANS casser les colonnes des dropdown -->
+        <!-- -------------------------------------------------------------------------- -->
+        <div id="dropdown-buttons">
+          <div class="dropdown">
+            <a
+              class="btn blue white-text dropdown-toggle"
+              href="#"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              Ingrédients
+            </a>
+
+            <ul class="dropdown-menu blue">
+              <div class="container">
+                <div class="row">
+                  <div class="col">
+                    <li>
+                      <a class="dropdown-item white-text" href="#"
+                        >Lait de coco</a
+                      >
+                    </li>
+                    <li>
+                      <a class="dropdown-item white-text" href="#">Sucre</a>
+                    </li>
+                    <li>
+                      <a class="dropdown-item white-text" href="#">Concombre</a>
+                    </li>
+                  </div>
+                  <div class="col">
+                    <li>
+                      <a class="dropdown-item white-text" href="#"
+                        >Jus de citron</a
+                      >
+                    </li>
+                    <li>
+                      <a class="dropdown-item white-text" href="#">Glaçons</a>
+                    </li>
+                    <li>
+                      <a class="dropdown-item white-text" href="#">Tomate</a>
+                    </li>
+                  </div>
+                  <div class="col">
+                    <li>
+                      <a class="dropdown-item white-text" href="#"
+                        >Crème de coco</a
+                      >
+                    </li>
+                    <li>
+                      <a class="dropdown-item white-text" href="#"
+                        >Thon rouge</a
+                      >
+                    </li>
+                    <li>
+                      <a class="dropdown-item white-text" href="#">Carotte</a>
+                    </li>
+                  </div>
+                </div>
+              </div>
+            </ul>
+          </div>
+          <div class="dropdown">
+            <a
+              class="btn green white-text dropdown-toggle"
+              href="#"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              Appareils
+            </a>
+
+            <ul class="dropdown-menu green">
+              <div class="container">
+                <div class="row">
+                  <div class="col">
+                    <li>
+                      <a class="dropdown-item white-text" href="#">Machin</a>
+                    </li>
+                    <li>
+                      <a class="dropdown-item white-text" href="#">Machin</a>
+                    </li>
+                    <li>
+                      <a class="dropdown-item white-text" href="#">Machin</a>
+                    </li>
+                  </div>
+                  <div class="col">
+                    <li>
+                      <a class="dropdown-item white-text" href="#">Machin</a>
+                    </li>
+                    <li>
+                      <a class="dropdown-item white-text" href="#">Machin</a>
+                    </li>
+                    <li>
+                      <a class="dropdown-item white-text" href="#">Machin</a>
+                    </li>
+                  </div>
+                  <div class="col">
+                    <li>
+                      <a class="dropdown-item white-text" href="#">Machin</a>
+                    </li>
+                    <li>
+                      <a class="dropdown-item white-text" href="#">Machin</a>
+                    </li>
+                    <li>
+                      <a class="dropdown-item white-text" href="#">Machin</a>
+                    </li>
+                  </div>
+                </div>
+              </div>
+            </ul>
+          </div>
+          <div class="dropdown">
+            <a
+              class="btn orange white-text dropdown-toggle"
+              href="#"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              Ustensiles
+            </a>
+
+            <ul class="dropdown-menu orange">
+              <div class="container">
+                <div class="row">
+                  <div class="col">
+                    <li>
+                      <a class="dropdown-item white-text" href="#">Machin</a>
+                    </li>
+                    <li>
+                      <a class="dropdown-item white-text" href="#">Machin</a>
+                    </li>
+                    <li>
+                      <a class="dropdown-item white-text" href="#">Machin</a>
+                    </li>
+                  </div>
+                  <div class="col">
+                    <li>
+                      <a class="dropdown-item white-text" href="#">Machin</a>
+                    </li>
+                    <li>
+                      <a class="dropdown-item white-text" href="#">Machin</a>
+                    </li>
+                    <li>
+                      <a class="dropdown-item white-text" href="#">Machin</a>
+                    </li>
+                  </div>
+                  <div class="col">
+                    <li>
+                      <a class="dropdown-item white-text" href="#">Machin</a>
+                    </li>
+                    <li>
+                      <a class="dropdown-item white-text" href="#">Machin</a>
+                    </li>
+                    <li>
+                      <a class="dropdown-item white-text" href="#">Machin</a>
+                    </li>
+                  </div>
+                </div>
+              </div>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <body>
+      <div class="container">
+        <div class="row">
+          <div class="col">
+            <div class="card">
+              <div class="brown-gray img-placeholder"></div>
+              <div class="card-body light-gray">
+                <div class="container">
+                  <div class="row">
+                    <div class="col">
+                      <h5 class="card-title recipe-title">Limonade de coco</h5>
+                    </div>
+                    <div class="col-4">
+                      <div class="recipe-time">
+                        <img
+                          class="time-icon"
+                          src="assets/time.png"
+                          alt="time icon"
+                        />
+                        <p class="recipe-time">10 min</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col">
+                      <div class="card-text ingredients">
+                        <div class="ingredient">
+                          <p class="ingredient-name">Lait de coco:</p>
+                          <p class="ingredient-quantity">400ml</p>
+                        </div>
+                        <div class="ingredient">
+                          <p class="ingredient-name">Jus de citron:</p>
+                          <p class="ingredient-quantity">2</p>
+                        </div>
+                        <div class="ingredient">
+                          <p class="ingredient-name">Crème de coco:</p>
+                          <p class="ingredient-quantity">4 cuillères</p>
+                        </div>
+                        <div class="ingredient">
+                          <p class="ingredient-name">Sucre:</p>
+                          <p class="ingredient-quantity">20g</p>
+                        </div>
+                        <div class="ingredient">
+                          <p class="ingredient-name">Glaçons:</p>
+                          <p class="ingredient-quantity">2</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col">
+                      <p class="card-text recipe">
+                        Mettre les glaçons à votre goût dans le blender, ajouter
+                        le lait, la crème de coco, le jus de 2 citrons et le
+                        sucre. Mixer jusqu'à avoir la consistence désirée.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col">
+            <div class="card">
+              <div class="brown-gray img-placeholder"></div>
+              <div class="card-body light-gray">
+                <div class="container">
+                  <div class="row">
+                    <div class="col">
+                      <h5 class="card-title recipe-title">Limonade de coco</h5>
+                    </div>
+                    <div class="col-4">
+                      <div class="recipe-time">
+                        <img
+                          class="time-icon"
+                          src="assets/time.png"
+                          alt="time icon"
+                        />
+                        <p class="recipe-time">10 min</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col">
+                      <div class="card-text ingredients">
+                        <div class="ingredient">
+                          <p class="ingredient-name">Lait de coco:</p>
+                          <p class="ingredient-quantity">400ml</p>
+                        </div>
+                        <div class="ingredient">
+                          <p class="ingredient-name">Jus de citron:</p>
+                          <p class="ingredient-quantity">2</p>
+                        </div>
+                        <div class="ingredient">
+                          <p class="ingredient-name">Crème de coco:</p>
+                          <p class="ingredient-quantity">4 cuillères</p>
+                        </div>
+                        <div class="ingredient">
+                          <p class="ingredient-name">Sucre:</p>
+                          <p class="ingredient-quantity">20g</p>
+                        </div>
+                        <div class="ingredient">
+                          <p class="ingredient-name">Glaçons:</p>
+                          <p class="ingredient-quantity">2</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col">
+                      <p class="card-text recipe">
+                        Mettre les glaçons à votre goût dans le blender, ajouter
+                        le lait, la crème de coco, le jus de 2 citrons et le
+                        sucre. Mixer jusqu'à avoir la consistence désirée.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col">
+            <div class="card">
+              <div class="brown-gray img-placeholder"></div>
+              <div class="card-body light-gray">
+                <div class="container">
+                  <div class="row">
+                    <div class="col">
+                      <h5 class="card-title recipe-title">Limonade de coco</h5>
+                    </div>
+                    <div class="col-4">
+                      <div class="recipe-time">
+                        <img
+                          class="time-icon"
+                          src="assets/time.png"
+                          alt="time icon"
+                        />
+                        <p class="recipe-time">10 min</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col">
+                      <div class="card-text ingredients">
+                        <div class="ingredient">
+                          <p class="ingredient-name">Lait de coco:</p>
+                          <p class="ingredient-quantity">400ml</p>
+                        </div>
+                        <div class="ingredient">
+                          <p class="ingredient-name">Jus de citron:</p>
+                          <p class="ingredient-quantity">2</p>
+                        </div>
+                        <div class="ingredient">
+                          <p class="ingredient-name">Crème de coco:</p>
+                          <p class="ingredient-quantity">4 cuillères</p>
+                        </div>
+                        <div class="ingredient">
+                          <p class="ingredient-name">Sucre:</p>
+                          <p class="ingredient-quantity">20g</p>
+                        </div>
+                        <div class="ingredient">
+                          <p class="ingredient-name">Glaçons:</p>
+                          <p class="ingredient-quantity">2</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col">
+                      <p class="card-text recipe">
+                        Mettre les glaçons à votre goût dans le blender, ajouter
+                        le lait, la crème de coco, le jus de 2 citrons et le
+                        sucre. Mixer jusqu'à avoir la consistence désirée.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </body>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+      crossorigin="anonymous"
+    ></script>
+    <script type="module" src="./js/main.js"></script>
+  </body>
+</html>

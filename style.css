@@ -1,0 +1,118 @@
+.blue {
+    background-color: #3282F7;
+}
+
+.green {
+    background-color: #68D9A4;
+}
+
+.orange {
+    background-color: #ED6454;
+}
+
+.light-gray {
+    background-color: #E7E7E7;
+}
+
+.brown-gray {
+    background-color: #C7BEBE;
+}
+
+.white-text {
+    color: white;
+}
+
+#logo {
+    height: 100px;
+    margin-top: 20px;
+}
+
+form {
+    display: flex;
+}
+
+#search {
+    height: 50px;
+    margin-top: 20px;
+}
+
+#submit {
+    border: none;
+    background: transparent;
+    margin-left: -50px;
+    margin-top: 15px;
+}
+  
+
+#search-icon {
+    height: 30px;
+}
+
+.btn-tag {
+    font-size: 13px;
+    width: auto;
+    margin-left: 12px;
+    margin-top: 25px;
+}
+
+.close-icon {
+    margin-left: 5px;
+}
+
+#dropdown-buttons {
+    display: inline-flex;
+}
+
+#dropdown-buttons .btn {
+    margin-right: 15px;
+    margin-top: 15px;
+}
+
+.img-placeholder {
+    height: 200px;
+}
+
+.card {
+    margin-top: 20px;
+}
+
+.recipe-time {
+    display: flex;
+}
+
+.time-icon {
+    height: 20px;
+    margin-right: 5px;
+    margin-top: 3px;
+}
+
+.recipe-time p {
+    font-size: large;
+    font-weight: bold;
+}
+
+.ingredient {
+    display: flex;
+    flex-direction: row;
+    font-size: 14px;
+    padding: 0;
+    margin: 0;
+}
+
+.ingredient-name {
+    font-weight: bold;
+    padding: 0;
+    margin: 0;
+    margin-right: 5px;
+}
+
+.ingredient-quantity {
+    padding: 0;
+    margin: 0;
+}
+
+.recipe {
+    font-size: 13px;
+    margin: 0;
+    padding: 0;
+}
