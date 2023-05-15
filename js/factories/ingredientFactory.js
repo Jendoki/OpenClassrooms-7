@@ -16,9 +16,13 @@ export function ingredientFactory(ingredient) {
     }
 
     function createIngredientTag() {
-        return `            
-        <div id="${ingredient}" class="btn blue white-text btn-tag">
-        ${ingredient}
+      const button = document.createElement('div');
+      button.id = ingredient;
+      button.className = 'btn blue white-text btn-tag';
+      button.textContent = ingredient;
+
+      const svg = document.createElement('span');
+      svg.innerHTML = `
         <svg
           class="close-icon"
           xmlns="http://www.w3.org/2000/svg"
@@ -35,7 +39,10 @@ export function ingredientFactory(ingredient) {
             d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"
           />
         </svg>
-        </div>`
+      `;
+      button.appendChild(svg);
+      
+      return button;
     }
 
     return {getIngredientDOM, createIngredientTag}

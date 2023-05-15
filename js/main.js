@@ -9,26 +9,25 @@ let selectedIngredients = []
 let selectedUstensils = []
 let selectedAppliances = ""
 
-function onClickIngredientTag(removedIngredient) {
-    console.log("click!")
-    selectedIngredients = selectedIngredients.filter(selectedIngredient => selectedIngredient !== removedIngredient)
+function searchAndDisplay(filter, selectedIngredients, selectedUstensils, selectedAppliances) {
     const recipesToDisplay = search(filter, selectedIngredients, selectedUstensils, selectedAppliances)
     displayData(recipesToDisplay)
+}
+
+function onClickIngredientTag(removedIngredient) {
+    selectedIngredients = selectedIngredients.filter(selectedIngredient => selectedIngredient !== removedIngredient)
+    searchAndDisplay(filter, selectedIngredients, selectedUstensils, selectedAppliances)
     document.getElementById(removedIngredient).remove()
 }
 
 function onClickIngredient(ingredient) {
     selectedIngredients.push(ingredient)
-    ////////// faire une fonction de ça v ///////
-    const recipesToDisplay = search(filter, selectedIngredients, selectedUstensils, selectedAppliances)
-    displayData(recipesToDisplay)
-    //////////////////
+    searchAndDisplay(filter, selectedIngredients, selectedUstensils, selectedAppliances)
     const tagsRow = document.getElementById("tags-row")
     const ingredientModel = ingredientFactory(ingredient)
     const ingredientDom = ingredientModel.createIngredientTag()
-    tagsRow.innerHTML += ingredientDom
+    tagsRow.appendChild(ingredientDom)
     const ingredientTag = document.getElementById(ingredient)
-    console.log(ingredientTag)
     ingredientTag.addEventListener("click", () => {
         onClickIngredientTag(ingredient)
     })
@@ -62,14 +61,23 @@ function displayIngredients(recipes) {
     return ingredientsArr
 }
 
+function onClickUstensilTag(removedUstensil) {
+    selectedUstensils = selectedUstensils.filter(selectedUstensil => selectedUstensil !== removedUstensil)
+    searchAndDisplay(filter, selectedIngredients, selectedUstensils, selectedAppliances)
+    document.getElementById(removedUstensil).remove()
+}
+
 function onClickUstensil(ustensil) {
     selectedUstensils.push(ustensil)
-    const recipesToDisplay = search(filter, selectedIngredients, selectedUstensils, selectedAppliances)
-    displayData(recipesToDisplay)
+    searchAndDisplay(filter, selectedIngredients, selectedUstensils, selectedAppliances)
     const tagsRow = document.getElementById("tags-row")
     const ustensilModel = ustensilFactory(ustensil)
     const ustensilDom = ustensilModel.createUstensilTag()
-    tagsRow.innerHTML += ustensilDom
+    tagsRow.appendChild(ustensilDom)
+    const ustensilTag = document.getElementById(ustensil)
+    ustensilTag.addEventListener("click", () => {
+        onClickUstensilTag(ustensil)
+    })
 }
 
 function displayUstensils(recipes) {
@@ -82,9 +90,9 @@ function displayUstensils(recipes) {
         let ustensils = recipe.ustensils
         for(let j = 0; j < ustensils.length; j++) {
             let ustensil = ustensils[j]
-            let ustensilsName = ustensil.toLowerCase()
-            if(ustensilsArr.includes(ustensilsName) === false) {
-                ustensilsArr.push(ustensilsName)
+            let ustensilName = ustensil.toLowerCase()
+            if(ustensilsArr.includes(ustensilName) === false && selectedUstensils.includes(ustensilName) === false) {
+                ustensilsArr.push(ustensilName)
             }
         }
     }
@@ -100,14 +108,25 @@ function displayUstensils(recipes) {
     return ustensilsArr
 }
 
+function onClickApplianceTag(removedAppliance) {
+    if (selectedAppliances === removedAppliance) {
+        selectedAppliances = ""
+    }
+    searchAndDisplay(filter, selectedIngredients, selectedUstensils, selectedAppliances)
+    document.getElementById(removedAppliance).remove()
+}
+
 function onClickAppliance(appliance) {
     selectedAppliances = appliance
-    const recipesToDisplay = search(filter, selectedIngredients, selectedUstensils, selectedAppliances)
-    displayData(recipesToDisplay)
+    searchAndDisplay(filter, selectedIngredients, selectedUstensils, selectedAppliances)
     const tagsRow = document.getElementById("tags-row")
     const applianceModel = applianceFactory(appliance)
     const applianceDom = applianceModel.createApplianceTag()
-    tagsRow.innerHTML += applianceDom
+    tagsRow.appendChild(applianceDom)
+    const applianceTag = document.getElementById(appliance)
+    applianceTag.addEventListener("click", () => {
+        onClickApplianceTag(appliance)
+    })
 }
 
 function displayAppliance(recipes) {
@@ -119,7 +138,7 @@ function displayAppliance(recipes) {
         let recipe = recipes[i]
         let appliance = recipe.appliance
         let applianceName = appliance.toLowerCase()
-        if(applianceArr.includes(applianceName) === false) {
+        if(applianceArr.includes(applianceName) === false && selectedAppliances.includes(applianceName) === false) {
             applianceArr.push(applianceName)
         }
     }
@@ -138,7 +157,6 @@ function displayAppliance(recipes) {
 function displayRecipes(recipes) {
     const recipesRow = document.querySelector("#recipesRow")
     recipesRow.innerHTML = ""
-    // console.log(recipesRow)
     for(let i = 0; i < recipes.length; i++) {
         const recipeModel = recipeFactory(recipes[i])
         const recipeCardDom = recipeModel.getRecipeDOM()
@@ -150,7 +168,6 @@ function displayRecipes(recipes) {
 }
 
 function displayData(recipes) {
-    // reset div qui contient les recettes
     displayIngredients(recipes)
     displayUstensils(recipes)
     displayAppliance(recipes)
@@ -235,11 +252,9 @@ function isRecipeMatchingApplianceTags(appliances, recipe) {
     return true
 }
 
-function removeTag() {
-
-}
-
 function search(filter, ingredients, ustensils, appliances) {
+    // fonction à refaire pour la V2
+    // utiliser find, filter, map...
     let recipesToDisplay = []
 
     for (let i = 0; i < recipes.length; i++) {
@@ -249,22 +264,43 @@ function search(filter, ingredients, ustensils, appliances) {
             recipesToDisplay.push(recipe)
         }
     }
-    console.log(recipesToDisplay)
     return recipesToDisplay
 }
 
 function onKeyUp(event) {
     filter = event.target.value.toLowerCase()
-    const recipesToDisplay = search(filter, selectedIngredients, selectedUstensils, selectedAppliances)
-    displayData(recipesToDisplay)
+    searchAndDisplay(filter, selectedIngredients, selectedUstensils, selectedAppliances)
+}
+
+function onKeyUpIngredients(event) {
+    let ingredientsFilter = event.target.value.toLowerCase()
+    console.log(ingredientsFilter)
+    let recipesToDisplay = []
+    for (let i = 0; i < recipes.length; i++) {
+        const recipe = recipes[i]
+        let ingredients = recipe.ingredients
+        for(let j = 0; j < ingredients.length; j++) {
+            let ingredient = ingredients[j]
+            let ingredientName = ingredient.ingredient.toLowerCase()
+            if(ingredientName.includes(ingredientsFilter)) {
+                recipesToDisplay.push(recipe)
+            }
+        }
+    }
+
+    let ingredientsArr = displayIngredients(recipesToDisplay)
+    let result = ingredientsArr.filter(ingredient => ingredient.includes(ingredientsFilter))
+    console.log(result)
+    //j'ai le tableau avec les ingrédients à afficher... mais je ne comprend pas comment les afficher
 }
 
 function init() {
-    const recipesToDisplay = search(filter, selectedIngredients, selectedUstensils, selectedAppliances)
-    displayData(recipesToDisplay)
+    searchAndDisplay(filter, selectedIngredients, selectedUstensils, selectedAppliances)
 }
 
 let input = document.getElementById("search")
 input.addEventListener("keyup", onKeyUp)
+let ingredientsInput = document.getElementById("ingredients-input")
+ingredientsInput.addEventListener("keyup", onKeyUpIngredients)
 
 init()
