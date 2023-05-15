@@ -8,9 +8,11 @@ let filter = ""
 let selectedIngredients = []
 let selectedUstensils = []
 let selectedAppliances = ""
+let displayedRecipes = recipes 
 
 function searchAndDisplay(filter, selectedIngredients, selectedUstensils, selectedAppliances) {
     const recipesToDisplay = search(filter, selectedIngredients, selectedUstensils, selectedAppliances)
+    displayedRecipes = recipesToDisplay
     displayData(recipesToDisplay)
 }
 
@@ -33,10 +35,21 @@ function onClickIngredient(ingredient) {
     })
 }
 
-function displayIngredients(recipes) {
+function displayIngredients(ingredients) {
     const ingredientsDropdown = document.getElementById("ingredients-dropdown")
     ingredientsDropdown.innerHTML = ""
+    
+    for(let i = 0; i < ingredients.length; i++) {
+        const ingredientModel = ingredientFactory(ingredients[i])
+        const ingredientDom = ingredientModel.getIngredientDOM()
+        ingredientDom.addEventListener("click", () => {
+            onClickIngredient(ingredients[i])
+        })
+        ingredientsDropdown.appendChild(ingredientDom)
+    }
+}
 
+function displayIngredientsFromRecipe(recipes) {
     let ingredientsArr = []
     for(let i = 0; i < recipes.length; i++) {
         let recipe = recipes[i]
@@ -49,14 +62,7 @@ function displayIngredients(recipes) {
             }
         }
     }
-    for(let i = 0; i < ingredientsArr.length; i++) {
-        const ingredientModel = ingredientFactory(ingredientsArr[i])
-        const ingredientDom = ingredientModel.getIngredientDOM()
-        ingredientDom.addEventListener("click", () => {
-            onClickIngredient(ingredientsArr[i])
-        })
-        ingredientsDropdown.appendChild(ingredientDom)
-    }
+    displayIngredients(ingredientsArr)
 
     return ingredientsArr
 }
@@ -168,7 +174,7 @@ function displayRecipes(recipes) {
 }
 
 function displayData(recipes) {
-    displayIngredients(recipes)
+    displayIngredientsFromRecipe(recipes)
     displayUstensils(recipes)
     displayAppliance(recipes)
     displayRecipes(recipes) 
@@ -275,23 +281,22 @@ function onKeyUp(event) {
 function onKeyUpIngredients(event) {
     let ingredientsFilter = event.target.value.toLowerCase()
     console.log(ingredientsFilter)
-    let recipesToDisplay = []
-    for (let i = 0; i < recipes.length; i++) {
-        const recipe = recipes[i]
+    let ingredientsToDisplay = []
+    for (let i = 0; i < displayedRecipes.length; i++) {
+        const recipe = displayedRecipes[i]
         let ingredients = recipe.ingredients
         for(let j = 0; j < ingredients.length; j++) {
             let ingredient = ingredients[j]
             let ingredientName = ingredient.ingredient.toLowerCase()
             if(ingredientName.includes(ingredientsFilter)) {
-                recipesToDisplay.push(recipe)
+                if(ingredientsToDisplay.includes(ingredientName) === false && selectedIngredients.includes(ingredientName) === false) {
+                    ingredientsToDisplay.push(ingredientName)
+                }
             }
         }
     }
 
-    let ingredientsArr = displayIngredients(recipesToDisplay)
-    let result = ingredientsArr.filter(ingredient => ingredient.includes(ingredientsFilter))
-    console.log(result)
-    //j'ai le tableau avec les ingrédients à afficher... mais je ne comprend pas comment les afficher
+    displayIngredients(ingredientsToDisplay)
 }
 
 function init() {
