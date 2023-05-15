@@ -269,26 +269,21 @@ function displayRecipes(recipes) {
 
 // ------------------ IS RECIPE MATCHING? ----------------------
 function isRecipeMatchingInput(filter, recipe) {
-    const recipeName = recipe.name.toLowerCase()
-    const recipeIngredients = recipe.ingredients
+    if (filter.length <= 3) { return true }
 
-    if (filter.length >= 3) {
-        if (recipeName.includes(filter)) {
-            return true
-        }
-        const recipeDesc = recipe.description
-        if (recipeDesc.includes(filter)) {
-            return true
-        }
-        for (let j = 0; j < recipeIngredients.length; j++) {
-            const ingredientName = recipeIngredients[j].ingredient.toLowerCase()
-            if (ingredientName.includes(filter)) {
-                return true
-            }
-        }
-        return false
-    } 
-    return true
+    const recipeName = recipe.name.toLowerCase()
+    const recipeDesc = recipe.description
+    const recipeIngredients = recipe.ingredients
+    const matchingIngredient = recipeIngredients.find(ingredient => { 
+        const ingredientName = ingredient.ingredient.toLowerCase()
+        return ingredientName.includes(filter)
+    })
+    console.log(matchingIngredient)
+    // si matchingingredient pas undefined OU si nom de la recette inclus le filtre OU si la description inclus le filtre
+    if(matchingIngredient !== undefined || recipeName.includes(filter) || recipeDesc.includes(filter)) {
+        return true
+    }
+    return false
 }
 
 function isRecipeMatchingIngredientsTags(ingredients, recipe) {
