@@ -86,10 +86,23 @@ function onClickUstensil(ustensil) {
     })
 }
 
-function displayUstensils(recipes) {
+function displayUstensils(ustensils) {
     const ustensilsDropdown = document.getElementById("ustensils-dropdown")
     ustensilsDropdown.innerHTML = ""
+    
+    for(let i = 0; i < ustensils.length; i++) {
+        const ustensilModel = ustensilFactory(ustensils[i])
+        const ustensilDom = ustensilModel.getUstensilDOM()
+        ustensilDom.addEventListener("click", () => {
+            onClickUstensil(ustensils[i])
+        })
+        ustensilsDropdown.appendChild(ustensilDom)
+    }
 
+    
+}
+
+function displayUstensilsFromRecipe(recipes) {
     let ustensilsArr = []
     for(let i = 0; i < recipes.length; i++) {
         let recipe = recipes[i]
@@ -102,15 +115,7 @@ function displayUstensils(recipes) {
             }
         }
     }
-    for(let i = 0; i < ustensilsArr.length; i++) {
-        const ustensilModel = ustensilFactory(ustensilsArr[i])
-        const ustensilDom = ustensilModel.getUstensilDOM()
-        ustensilDom.addEventListener("click", () => {
-            onClickUstensil(ustensilsArr[i])
-        })
-        ustensilsDropdown.appendChild(ustensilDom)
-    }
-
+    displayUstensils(ustensilsArr)
     return ustensilsArr
 }
 
@@ -135,10 +140,22 @@ function onClickAppliance(appliance) {
     })
 }
 
-function displayAppliance(recipes) {
+function displayAppliance(appliances) {
     const appliancesDropdown = document.getElementById("appliances-dropdown")
     appliancesDropdown.innerHTML = ""
 
+
+    for(let i = 0; i < appliances.length; i++) {
+        const applianceModel = applianceFactory(appliances[i])
+        const applianceDom = applianceModel.getApplianceDOM()
+        applianceDom.addEventListener("click", () => {
+            onClickAppliance(appliances[i])
+        })
+        appliancesDropdown.appendChild(applianceDom)
+    }
+}
+
+function displayApplianceFromRecipe(recipes) {
     let applianceArr = []
     for(let i = 0; i < recipes.length; i++) {
         let recipe = recipes[i]
@@ -148,15 +165,7 @@ function displayAppliance(recipes) {
             applianceArr.push(applianceName)
         }
     }
-    for(let i = 0; i < applianceArr.length; i++) {
-        const applianceModel = applianceFactory(applianceArr[i])
-        const applianceDom = applianceModel.getApplianceDOM()
-        applianceDom.addEventListener("click", () => {
-            onClickAppliance(applianceArr[i])
-        })
-        appliancesDropdown.appendChild(applianceDom)
-    }
-
+    displayAppliance(applianceArr)
     return applianceArr
 }
 
@@ -175,8 +184,8 @@ function displayRecipes(recipes) {
 
 function displayData(recipes) {
     displayIngredientsFromRecipe(recipes)
-    displayUstensils(recipes)
-    displayAppliance(recipes)
+    displayUstensilsFromRecipe(recipes)
+    displayApplianceFromRecipe(recipes)
     displayRecipes(recipes) 
 }
 
@@ -259,8 +268,6 @@ function isRecipeMatchingApplianceTags(appliances, recipe) {
 }
 
 function search(filter, ingredients, ustensils, appliances) {
-    // fonction à refaire pour la V2
-    // utiliser find, filter, map...
     let recipesToDisplay = []
 
     for (let i = 0; i < recipes.length; i++) {
@@ -280,7 +287,6 @@ function onKeyUp(event) {
 
 function onKeyUpIngredients(event) {
     let ingredientsFilter = event.target.value.toLowerCase()
-    console.log(ingredientsFilter)
     let ingredientsToDisplay = []
     for (let i = 0; i < displayedRecipes.length; i++) {
         const recipe = displayedRecipes[i]
@@ -299,6 +305,44 @@ function onKeyUpIngredients(event) {
     displayIngredients(ingredientsToDisplay)
 }
 
+function onKeyUpAppliances(event) {
+    let appliancesFilter = event.target.value.toLowerCase()
+    let appliancesToDisplay = []
+    for (let i = 0; i < displayedRecipes.length; i++) {
+        const recipe = displayedRecipes[i]
+        let appliance = recipe.appliance
+        let applianceName = appliance.toLowerCase()
+        if(applianceName.includes(appliancesFilter)) {
+            if(appliancesToDisplay.includes(applianceName) === false && selectedAppliances.includes(applianceName) === false) {
+                appliancesToDisplay.push(applianceName)
+                console.log(appliancesToDisplay)
+            }
+        }
+    }
+
+    displayAppliance(appliancesToDisplay)
+}
+
+function onKeyUpUstensils(event) {
+    let ustensilsFilter = event.target.value.toLowerCase()
+    let ustensilsToDisplay = []
+    for (let i = 0; i < displayedRecipes.length; i++) {
+        const recipe = displayedRecipes[i]
+        let ustensils = recipe.ustensils
+        for(let j = 0; j < ustensils.length; j++) {
+            let ustensil = ustensils[j]
+            let ustensilName = ustensil.toLowerCase()
+            if(ustensilName.includes(ustensilsFilter)) {
+                if(ustensilsToDisplay.includes(ustensilName) === false && selectedUstensils.includes(ustensilName) === false) {
+                    ustensilsToDisplay.push(ustensilName)
+                }
+            }
+        }
+    }
+
+    displayUstensils(ustensilsToDisplay)
+}
+
 function init() {
     searchAndDisplay(filter, selectedIngredients, selectedUstensils, selectedAppliances)
 }
@@ -307,5 +351,9 @@ let input = document.getElementById("search")
 input.addEventListener("keyup", onKeyUp)
 let ingredientsInput = document.getElementById("ingredients-input")
 ingredientsInput.addEventListener("keyup", onKeyUpIngredients)
+let appliancesInput = document.getElementById("appliances-input")
+appliancesInput.addEventListener("keyup", onKeyUpAppliances)
+let ustensilsInput = document.getElementById("ustensils-input")
+ustensilsInput.addEventListener("keyup", onKeyUpUstensils)
 
 init()
