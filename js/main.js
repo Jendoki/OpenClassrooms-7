@@ -10,18 +10,117 @@ let selectedUstensils = []
 let selectedAppliances = ""
 let displayedRecipes = recipes 
 
+// ------------------ DISPLAY & SEARCH ----------------------
+function search(filter, ingredients, ustensils, appliances) {
+    let recipesToDisplay = []
+
+    for (let i = 0; i < recipes.length; i++) {
+        const recipe = recipes[i]
+
+        if (isRecipeMatchingInput(filter, recipe) && isRecipeMatchingIngredientsTags(ingredients, recipe) && isRecipeMatchingUstensilsTags(ustensils, recipe) && isRecipeMatchingApplianceTags(appliances, recipe)) {
+            recipesToDisplay.push(recipe)
+        }
+    }
+    return recipesToDisplay
+}
+
+function displayData(recipes) {
+    displayIngredientsFromRecipe(recipes)
+    displayUstensilsFromRecipe(recipes)
+    displayApplianceFromRecipe(recipes)
+    displayRecipes(recipes) 
+}
+
 function searchAndDisplay(filter, selectedIngredients, selectedUstensils, selectedAppliances) {
     const recipesToDisplay = search(filter, selectedIngredients, selectedUstensils, selectedAppliances)
     displayedRecipes = recipesToDisplay
     displayData(recipesToDisplay)
 }
 
+// ------------------ ONKEYUP ----------------------
+function onKeyUp(event) {
+    filter = event.target.value.toLowerCase()
+    searchAndDisplay(filter, selectedIngredients, selectedUstensils, selectedAppliances)
+}
+
+function onKeyUpIngredients(event) {
+    let ingredientsFilter = event.target.value.toLowerCase()
+    let ingredientsToDisplay = []
+    for (let i = 0; i < displayedRecipes.length; i++) {
+        const recipe = displayedRecipes[i]
+        let ingredients = recipe.ingredients
+        for(let j = 0; j < ingredients.length; j++) {
+            let ingredient = ingredients[j]
+            let ingredientName = ingredient.ingredient.toLowerCase()
+            if(ingredientName.includes(ingredientsFilter)) {
+                if(ingredientsToDisplay.includes(ingredientName) === false && selectedIngredients.includes(ingredientName) === false) {
+                    ingredientsToDisplay.push(ingredientName)
+                }
+            }
+        }
+    }
+    displayIngredients(ingredientsToDisplay)
+}
+
+function onKeyUpAppliances(event) {
+    let appliancesFilter = event.target.value.toLowerCase()
+    let appliancesToDisplay = []
+    for (let i = 0; i < displayedRecipes.length; i++) {
+        const recipe = displayedRecipes[i]
+        let appliance = recipe.appliance
+        let applianceName = appliance.toLowerCase()
+        if(applianceName.includes(appliancesFilter)) {
+            if(appliancesToDisplay.includes(applianceName) === false && selectedAppliances.includes(applianceName) === false) {
+                appliancesToDisplay.push(applianceName)
+                console.log(appliancesToDisplay)
+            }
+        }
+    }
+    displayAppliance(appliancesToDisplay)
+}
+
+function onKeyUpUstensils(event) {
+    let ustensilsFilter = event.target.value.toLowerCase()
+    let ustensilsToDisplay = []
+    for (let i = 0; i < displayedRecipes.length; i++) {
+        const recipe = displayedRecipes[i]
+        let ustensils = recipe.ustensils
+        for(let j = 0; j < ustensils.length; j++) {
+            let ustensil = ustensils[j]
+            let ustensilName = ustensil.toLowerCase()
+            if(ustensilName.includes(ustensilsFilter)) {
+                if(ustensilsToDisplay.includes(ustensilName) === false && selectedUstensils.includes(ustensilName) === false) {
+                    ustensilsToDisplay.push(ustensilName)
+                }
+            }
+        }
+    }
+    displayUstensils(ustensilsToDisplay)
+}
+
+
+// ------------------ TAGS ----------------------
 function onClickIngredientTag(removedIngredient) {
     selectedIngredients = selectedIngredients.filter(selectedIngredient => selectedIngredient !== removedIngredient)
     searchAndDisplay(filter, selectedIngredients, selectedUstensils, selectedAppliances)
     document.getElementById(removedIngredient).remove()
 }
 
+function onClickUstensilTag(removedUstensil) {
+    selectedUstensils = selectedUstensils.filter(selectedUstensil => selectedUstensil !== removedUstensil)
+    searchAndDisplay(filter, selectedIngredients, selectedUstensils, selectedAppliances)
+    document.getElementById(removedUstensil).remove()
+}
+
+function onClickApplianceTag(removedAppliance) {
+    if (selectedAppliances === removedAppliance) {
+        selectedAppliances = ""
+    }
+    searchAndDisplay(filter, selectedIngredients, selectedUstensils, selectedAppliances)
+    document.getElementById(removedAppliance).remove()
+}
+
+// ------------------ INGREDIENTS ----------------------
 function onClickIngredient(ingredient) {
     selectedIngredients.push(ingredient)
     searchAndDisplay(filter, selectedIngredients, selectedUstensils, selectedAppliances)
@@ -67,12 +166,7 @@ function displayIngredientsFromRecipe(recipes) {
     return ingredientsArr
 }
 
-function onClickUstensilTag(removedUstensil) {
-    selectedUstensils = selectedUstensils.filter(selectedUstensil => selectedUstensil !== removedUstensil)
-    searchAndDisplay(filter, selectedIngredients, selectedUstensils, selectedAppliances)
-    document.getElementById(removedUstensil).remove()
-}
-
+// ------------------ USTENSILS ----------------------
 function onClickUstensil(ustensil) {
     selectedUstensils.push(ustensil)
     searchAndDisplay(filter, selectedIngredients, selectedUstensils, selectedAppliances)
@@ -98,8 +192,6 @@ function displayUstensils(ustensils) {
         })
         ustensilsDropdown.appendChild(ustensilDom)
     }
-
-    
 }
 
 function displayUstensilsFromRecipe(recipes) {
@@ -119,14 +211,7 @@ function displayUstensilsFromRecipe(recipes) {
     return ustensilsArr
 }
 
-function onClickApplianceTag(removedAppliance) {
-    if (selectedAppliances === removedAppliance) {
-        selectedAppliances = ""
-    }
-    searchAndDisplay(filter, selectedIngredients, selectedUstensils, selectedAppliances)
-    document.getElementById(removedAppliance).remove()
-}
-
+// ------------------ APPLIANCES ----------------------
 function onClickAppliance(appliance) {
     selectedAppliances = appliance
     searchAndDisplay(filter, selectedIngredients, selectedUstensils, selectedAppliances)
@@ -182,13 +267,7 @@ function displayRecipes(recipes) {
     }
 }
 
-function displayData(recipes) {
-    displayIngredientsFromRecipe(recipes)
-    displayUstensilsFromRecipe(recipes)
-    displayApplianceFromRecipe(recipes)
-    displayRecipes(recipes) 
-}
-
+// ------------------ IS RECIPE MATCHING? ----------------------
 function isRecipeMatchingInput(filter, recipe) {
     const recipeName = recipe.name.toLowerCase()
     const recipeIngredients = recipe.ingredients
@@ -267,82 +346,7 @@ function isRecipeMatchingApplianceTags(appliances, recipe) {
     return true
 }
 
-function search(filter, ingredients, ustensils, appliances) {
-    let recipesToDisplay = []
-
-    for (let i = 0; i < recipes.length; i++) {
-        const recipe = recipes[i]
-
-        if (isRecipeMatchingInput(filter, recipe) && isRecipeMatchingIngredientsTags(ingredients, recipe) && isRecipeMatchingUstensilsTags(ustensils, recipe) && isRecipeMatchingApplianceTags(appliances, recipe)) {
-            recipesToDisplay.push(recipe)
-        }
-    }
-    return recipesToDisplay
-}
-
-function onKeyUp(event) {
-    filter = event.target.value.toLowerCase()
-    searchAndDisplay(filter, selectedIngredients, selectedUstensils, selectedAppliances)
-}
-
-function onKeyUpIngredients(event) {
-    let ingredientsFilter = event.target.value.toLowerCase()
-    let ingredientsToDisplay = []
-    for (let i = 0; i < displayedRecipes.length; i++) {
-        const recipe = displayedRecipes[i]
-        let ingredients = recipe.ingredients
-        for(let j = 0; j < ingredients.length; j++) {
-            let ingredient = ingredients[j]
-            let ingredientName = ingredient.ingredient.toLowerCase()
-            if(ingredientName.includes(ingredientsFilter)) {
-                if(ingredientsToDisplay.includes(ingredientName) === false && selectedIngredients.includes(ingredientName) === false) {
-                    ingredientsToDisplay.push(ingredientName)
-                }
-            }
-        }
-    }
-
-    displayIngredients(ingredientsToDisplay)
-}
-
-function onKeyUpAppliances(event) {
-    let appliancesFilter = event.target.value.toLowerCase()
-    let appliancesToDisplay = []
-    for (let i = 0; i < displayedRecipes.length; i++) {
-        const recipe = displayedRecipes[i]
-        let appliance = recipe.appliance
-        let applianceName = appliance.toLowerCase()
-        if(applianceName.includes(appliancesFilter)) {
-            if(appliancesToDisplay.includes(applianceName) === false && selectedAppliances.includes(applianceName) === false) {
-                appliancesToDisplay.push(applianceName)
-                console.log(appliancesToDisplay)
-            }
-        }
-    }
-
-    displayAppliance(appliancesToDisplay)
-}
-
-function onKeyUpUstensils(event) {
-    let ustensilsFilter = event.target.value.toLowerCase()
-    let ustensilsToDisplay = []
-    for (let i = 0; i < displayedRecipes.length; i++) {
-        const recipe = displayedRecipes[i]
-        let ustensils = recipe.ustensils
-        for(let j = 0; j < ustensils.length; j++) {
-            let ustensil = ustensils[j]
-            let ustensilName = ustensil.toLowerCase()
-            if(ustensilName.includes(ustensilsFilter)) {
-                if(ustensilsToDisplay.includes(ustensilName) === false && selectedUstensils.includes(ustensilName) === false) {
-                    ustensilsToDisplay.push(ustensilName)
-                }
-            }
-        }
-    }
-
-    displayUstensils(ustensilsToDisplay)
-}
-
+// ------------------ INIT ----------------------
 function init() {
     searchAndDisplay(filter, selectedIngredients, selectedUstensils, selectedAppliances)
 }
