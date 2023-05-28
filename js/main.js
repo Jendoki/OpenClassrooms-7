@@ -63,7 +63,6 @@ function onKeyUpAppliances(event) {
         if(applianceName.includes(appliancesFilter)) {
             if(appliancesToDisplay.includes(applianceName) === false && selectedAppliances.includes(applianceName) === false) {
                 appliancesToDisplay.push(applianceName)
-                console.log(appliancesToDisplay)
             }
         }
     }
@@ -269,8 +268,6 @@ function isRecipeMatchingInput(filter, recipe) {
         const ingredientName = ingredient.ingredient.toLowerCase()
         return ingredientName.includes(filter)
     })
-    console.log(matchingIngredient)
-    // si matchingingredient pas undefined OU si nom de la recette inclus le filtre OU si la description inclus le filtre
     if(matchingIngredient !== undefined || recipeName.includes(filter) || recipeDesc.includes(filter)) {
         return true
     }

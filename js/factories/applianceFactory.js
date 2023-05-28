@@ -1,6 +1,4 @@
 export function applianceFactory(appliance) {
-    // ajouter chaque appareil dans le dropdown des ingrédients
-
     function getApplianceDOM() {
         const applianceLine = document.createElement("li")
         const applianceLink = document.createElement("a")

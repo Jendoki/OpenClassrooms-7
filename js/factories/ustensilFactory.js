@@ -1,6 +1,4 @@
 export function ustensilFactory(ustensil) {
-    // ajouter chaque ustensile dans le dropdown des ingrédients
-
     function getUstensilDOM() {
         const ustensilLine = document.createElement("li")
         const ustensilLink = document.createElement("a")
