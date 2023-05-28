@@ -12,16 +12,7 @@ let displayedRecipes = recipes
 
 // ------------------ DISPLAY & SEARCH ----------------------
 function search(filter, ingredients, ustensils, appliances) {
-    let recipesToDisplay = []
-
-    for (let i = 0; i < recipes.length; i++) {
-        const recipe = recipes[i]
-
-        if (isRecipeMatchingInput(filter, recipe) && isRecipeMatchingIngredientsTags(ingredients, recipe) && isRecipeMatchingUstensilsTags(ustensils, recipe) && isRecipeMatchingApplianceTags(appliances, recipe)) {
-            recipesToDisplay.push(recipe)
-        }
-    }
-    return recipesToDisplay
+    return recipes.filter(recipe => isRecipeMatchingInput(filter, recipe)  && isRecipeMatchingIngredientsTags(ingredients, recipe) && isRecipeMatchingUstensilsTags(ustensils, recipe) && isRecipeMatchingApplianceTags(appliances, recipe))
 }
 
 function displayData(recipes) {
@@ -286,58 +277,33 @@ function isRecipeMatchingInput(filter, recipe) {
     return false
 }
 
-function isRecipeMatchingIngredientsTags(ingredients, recipe) {
-    const recipeIngredients = recipe.ingredients
 
+function isRecipeMatchingIngredientsTags(ingredients, recipe) {
+    let recipeIngredients = recipe.ingredients
+    recipeIngredients = recipeIngredients.map(ingredient => ingredient.ingredient.toLowerCase())
     if (ingredients.length !== 0) {
-        let ingredientIntersectionCount = 0
-        for (let k = 0; k < recipeIngredients.length; k++) {
-            const ingredientName = recipeIngredients[k].ingredient.toLowerCase()
-            if (ingredients.includes(ingredientName)) {
-                ingredientIntersectionCount += 1
-            }
-        }
-        if (ingredientIntersectionCount === ingredients.length) {
-            return true
-        } 
-        return false
-    }
+        const matchIngredients = (ingredientTag) =>  recipeIngredients.includes(ingredientTag)
+        return ingredients.every(matchIngredients)
+    } 
     return true
 }
 
 function isRecipeMatchingUstensilsTags(ustensils, recipe) {
-    const recipeUstentils = recipe.ustensils
+    let recipeUstensils = recipe.ustensils
+    recipeUstensils = recipeUstensils.map(ustensil => ustensil.toLowerCase())
     if (ustensils.length !== 0) {
-        let ustensilIntersectionCount = 0
-        for (let k = 0; k < recipeUstentils.length; k++) {
-            const ustensilName = recipeUstentils[k].toLowerCase()
-            if (ustensils.includes(ustensilName)) {
-                ustensilIntersectionCount += 1
-            }
-        }
-        if (ustensilIntersectionCount === ustensils.length) {
-            return true
-        } 
-        return false
-    }
+        const matchUstensils = (ustensilTag) =>  recipeUstensils.includes(ustensilTag)
+        return ustensils.every(matchUstensils)
+    } 
     return true
 }
 
 function isRecipeMatchingApplianceTags(appliances, recipe) {
-    const recipeAppliance = recipe.appliance.toLowerCase()
+    let recipeAppliance = recipe.appliance
+    recipeAppliance = recipeAppliance.toLowerCase()
     if (appliances.length !== 0) {
-        let applianceIntersectionCount = 0
-        for (let k = 0; k < recipeAppliance.length; k++) {
-            const applianceName = recipeAppliance[k].toLowerCase()
-            if (appliances.includes(applianceName)) {
-                applianceIntersectionCount += 1
-            }
-        }
-        if (applianceIntersectionCount === appliances.length) {
-            return true
-        } 
-        return false
-    }
+        return appliances.includes(recipeAppliance)
+    } 
     return true
 }
 
