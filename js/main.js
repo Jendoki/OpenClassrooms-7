@@ -72,7 +72,6 @@ function onKeyUpAppliances(event) {
         if(applianceName.includes(appliancesFilter)) {
             if(appliancesToDisplay.includes(applianceName) === false && selectedAppliances.includes(applianceName) === false) {
                 appliancesToDisplay.push(applianceName)
-                console.log(appliancesToDisplay)
             }
         }
     }
